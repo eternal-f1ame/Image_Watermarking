@@ -3,6 +3,7 @@ sys.path.append('../')
 
 from util.watermarking import Watermarking
 from util.test import test_random
+from util.test import encrypt_img
 
 class Testing(Watermarking):
     def __init__(self):
@@ -16,3 +17,5 @@ class Testing(Watermarking):
 
 T = Testing()
 assert(test_random(T))
+encrypt_img(T, "../../test_images/img_1.jpeg")
+
