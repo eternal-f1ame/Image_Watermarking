@@ -27,3 +27,12 @@ def eval_metrics(T, img_path, W, K = 10):
     for metric in METRICS.keys():
         metrics[metric] = METRICS[metric](D, cover_img)
     return metrics
+
+def eval_metrics_cv(T, img, W, K = 10):
+    cover_img = img
+    cover_img = cover_img.astype(np.uint8)
+    D = T.Enc(cover_img, W, K)
+    metrics = {}
+    for metric in METRICS.keys():
+        metrics[metric] = METRICS[metric](D, cover_img)
+    return metrics
