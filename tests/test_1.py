@@ -12,14 +12,14 @@ class Testing(Watermarking):
         pass
 
     def Enc(self, I, W, K):
-        return I+(W*K)
+        return I
 
     def Dec(self, D, I, K):
-        return (D-I)/K
+        return D
 
 T = Testing()
-assert(test_random(T))
-encrypt_img(T, "../../test_images/img_1.jpeg")
+assert(not test_random(T))
+encrypt_img(T, "../../test_images/img_1.jpeg", b"111")
 W = np.random.rand(10, 10, 3)*255
 print(eval_metrics(T, "../../test_images/img_1.jpeg", W))
 
