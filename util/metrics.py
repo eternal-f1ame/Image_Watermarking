@@ -133,6 +133,7 @@ METRICS = {
     "MSE": mse,
     "PSNR": psnr,
     "MPSNR": mpsnr,
+    "SSIM": ssim,
     "MSSIM": msssim,
     "BER": ber
     }
