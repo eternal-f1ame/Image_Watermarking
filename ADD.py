@@ -7,7 +7,7 @@ from util.test import encrypt_img
 from util.test import eval_metrics
 
 class ADD(Watermarking):
-    """Abstract class for watermarking for ADD algorithm."""
+    """Class for watermarking for ADD algorithm."""
     def __init__(self):
         pass
 

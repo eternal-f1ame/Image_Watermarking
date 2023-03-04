@@ -32,8 +32,8 @@ def eval_metrics(_t, img_path, _w, _k = 10):
     cover_img = cover_img.astype(np.uint8)
     D = _t.Enc(cover_img, _w, _k)
     metrics = {}
-    for metric in METRICS.items():
-        metric = metric(D, cover_img)
+    for metric in METRICS.keys():
+        metrics[metric] = METRICS[metric](D, cover_img)
     return metrics
 
 def eval_metrics_cv(_t, img, _w, _k = 10):
@@ -43,6 +43,6 @@ def eval_metrics_cv(_t, img, _w, _k = 10):
     cover_img = cover_img.astype(np.uint8)
     D = _t.Enc(cover_img, _w, _k)
     metrics = {}
-    for metric in METRICS.items():
-        metric = metric(D, cover_img)
+    for metric in METRICS.keys():
+        metrics[metric] = METRICS[metric](D, cover_img)
     return metrics
