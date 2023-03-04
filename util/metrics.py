@@ -1,7 +1,9 @@
+"""Metrics for evaluating the performance of a model."""
 import numpy as np
 
-def MSE(D, I):
-    return (np.square(D - I)).mean()
+def mse(_d, _i):
+    """Mean Squared Error"""
+    return (np.square(_d - _i)).mean()
 
-METRICS = {"MSE": MSE,
+METRICS = {"MSE": mse,
         }
