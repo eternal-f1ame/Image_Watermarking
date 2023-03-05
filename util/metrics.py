@@ -1,6 +1,8 @@
 """Metrics for evaluating the performance of a model."""
 import numpy as np
 from scipy import signal
+from scipy import ndimage
+import gauss
 
 def mse(_d, _i):
     """Mean Squared Error"""
@@ -34,34 +36,57 @@ def mpsnr(_d, _i, mask):
     psnr_masked = 10 * np.log10(max_pixel_value**2 / mse_masked)
     return psnr_masked
 
-def mssim(_d, _i, k_1=0.01, k_2=0.03, sigma=1.5, win_size=11):
-    """
-    Mean Structural Similarity (MSSIM) Index
-    """
+def ssim(img1, img2, cs_map=False):
+    """Structural Similarity (SSIM) Index"""
 
-    assert _d.shape == _i.shape, "Input images must have the same size"
-    assert _d.ndim == _i.ndim, "Input images must have the same number of channels"
+    img1 = img1.astype(np.float64)
+    img2 = img2.astype(np.float64)
+    size = 11
+    sigma = 1.5
+    window = gauss.fspecial_gauss(size, sigma)
+    k_1 = 0.01
+    k_2 = 0.03
+    _l = 255 #bitdepth of image
+    c_1 = (k_1*_l)**2
+    c_2 = (k_2*_l)**2
+    mu1 = signal.fftconvolve(window, img1, mode='valid')
+    mu2 = signal.fftconvolve(window, img2, mode='valid')
+    mu1_sq = mu1*mu1
+    mu2_sq = mu2*mu2
+    mu1_mu2 = mu1*mu2
+    sigma1_sq = signal.fftconvolve(window, img1*img1, mode='valid') - mu1_sq
+    sigma2_sq = signal.fftconvolve(window, img2*img2, mode='valid') - mu2_sq
+    sigma12 = signal.fftconvolve(window, img1*img2, mode='valid') - mu1_mu2
+    if cs_map:
+        return (((2*mu1_mu2 + c_1)*(2*sigma12 + c_2))/((mu1_sq + mu2_sq + c_1)*
+                    (sigma1_sq + sigma2_sq + c_2)), 
+                (2.0*sigma12 + c_2)/(sigma1_sq + sigma2_sq + c_2))
+    else:
+        return ((2*mu1_mu2 + c_1)*(2*sigma12 + c_2))/((mu1_sq + mu2_sq + c_1)*
+                    (sigma1_sq + sigma2_sq + c_2))
 
-    if _d.ndim == 3 and _d.shape[-1] == 3:
-        _d = rgb2ycbcr(_d)[:,:,0]
-        _i = rgb2ycbcr(_i)[:,:,0]
+def msssim(img1, img2):
+    """Multi-scale Structural Similarity (MSSSIM) Index"""
 
-    _d = _d.astype(np.float64) / np.max(_d)
-    _i = _i.astype(np.float64) / np.max(_i)
-
-    mu_d = signal.convolve2d(_d, gaussian_kernel(sigma, win_size), mode='same')
-    mu_i = signal.convolve2d(_i, gaussian_kernel(sigma, win_size), mode='same')
-    sigma_d = signal.convolve2d(_d**2, gaussian_kernel(sigma, win_size), mode='same') - mu_d**2
-    sigma_i = signal.convolve2d(_i**2, gaussian_kernel(sigma, win_size), mode='same') - mu_i**2
-    sigma_di = signal.convolve2d(_d*_i, gaussian_kernel(sigma, win_size), mode='same') - mu_d*mu_i
-
-    c_1 = (k_1*np.max(_d))**2
-    c_2 = (k_2*np.max(_d))**2
-    num = (2*mu_d*mu_i + c_1)*(2*sigma_di + c_2)
-    den = (mu_d**2 + mu_i**2 + c_1)*(sigma_d + sigma_i + c_2)
-
-    mssim_val = np.mean(num / den)
-    return mssim_val
+    level = 5
+    weight = np.array([0.0448, 0.2856, 0.3001, 0.2363, 0.1333])
+    downsample_filter = np.ones((2, 2))/4.0
+    im1 = img1.astype(np.float64)
+    im2 = img2.astype(np.float64)
+    mssim = np.array([])
+    mcs = np.array([])
+    for _ in range(level):
+        ssim_map, cs_map = ssim(im1, im2, cs_map=True)
+        mssim = np.append(mssim, ssim_map.mean())
+        mcs = np.append(mcs, cs_map.mean())
+        filtered_im1 = ndimage.filters.convolve(im1, downsample_filter,
+                                                mode='reflect')
+        filtered_im2 = ndimage.filters.convolve(im2, downsample_filter,
+                                                mode='reflect')
+        im1 = filtered_im1[::2, ::2]
+        im2 = filtered_im2[::2, ::2]
+    return (np.prod(mcs[0:level-1]**weight[0:level-1])*
+                    (mssim[level-1]**weight[level-1]))
 
 def rgb2ycbcr(img):
     """
@@ -108,6 +133,7 @@ METRICS = {
     "MSE": mse,
     "PSNR": psnr,
     "MPSNR": mpsnr,
-    "MSSIM": mssim,
+    "SSIM": ssim,
+    "MSSIM": msssim,
     "BER": ber
     }

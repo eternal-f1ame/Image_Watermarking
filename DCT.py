@@ -21,7 +21,7 @@ quant = np.array([[16,11,10,16,24,40,51,61],
                     [72,92,95,98,112,100,103,99]])
 
 class DCT(Watermarking):
-    """Abstract class for watermarking for DCT algorithm."""
+    """Class for watermarking for DCT algorithm."""
 
     def __init__(self):
         self.message = None
