@@ -79,9 +79,9 @@ def msssim(img1, img2):
         ssim_map, cs_map = ssim(im1, im2, cs_map=True)
         mssim = np.append(mssim, ssim_map.mean())
         mcs = np.append(mcs, cs_map.mean())
-        filtered_im1 = ndimage.filters.convolve(im1, downsample_filter, 
+        filtered_im1 = ndimage.filters.convolve(im1, downsample_filter,
                                                 mode='reflect')
-        filtered_im2 = ndimage.filters.convolve(im2, downsample_filter, 
+        filtered_im2 = ndimage.filters.convolve(im2, downsample_filter,
                                                 mode='reflect')
         im1 = filtered_im1[::2, ::2]
         im2 = filtered_im2[::2, ::2]
