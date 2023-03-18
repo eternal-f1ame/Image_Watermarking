@@ -34,7 +34,7 @@ class DWT(Watermarking):
 
     def enc(self, img, secret_msg, _k):
         """Encrypts an image _i with a watermark _w and a key _k."""
-        # Convert the secret message to binary
+
         self.message = secret_msg
         self.bit_mess = self.to_bits()
 
@@ -102,6 +102,7 @@ class DWT(Watermarking):
 
 def add_padd(img):
     """Adds padding to an image to make it divisible by 8."""
+
     col = img.shape[1]
     row = img.shape[0]
     img = cv2.resize(img,(col+(8-col%8),row+(8-row%8)))    
@@ -110,9 +111,11 @@ def add_padd(img):
 
 T = DWT()
 W = "1100"
-img = cv2.imread("../test_images/img_1.jpeg")
+img = cv2.imread("../test_images/cat/cat_0.jpg")
 img = add_padd(img)
 print(img.shape)
 _d = (T.enc(img,W,10))
 print(T.dec(_d, None, None))
 print(eval_metrics_cv(T, img, "110000"))
+
+# EOL
