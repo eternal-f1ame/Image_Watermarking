@@ -24,6 +24,7 @@ class DCT(Watermarking):
     """Class for watermarking for DCT algorithm."""
 
     def __init__(self):
+        self.type = "DCT"
         self.message = None
         self.bit_mess = None
         self.ori_col = 0
@@ -37,6 +38,7 @@ class DCT(Watermarking):
         self.message = str(len(secret))+'*'+secret_msg
         self.bit_mess = self.to_bits()
 
+        img = self.add_padd(img)
         row,col = img.shape[:2]
         self.ori_row, self.ori_col = row, col
 
@@ -46,9 +48,9 @@ class DCT(Watermarking):
 
         row,col = img.shape[:2]
         b_img,g_img,r_img = cv2.split(img)
-        new_channels   =    [b_img, g_img, r_img]
-        b_img   =   np.float32(b_img)
-        img_blocks  =   [np.round(b_img[j:j+8, i:i+8]-128)
+        new_channels = [b_img, g_img, r_img]
+        b_img = np.float32(b_img)
+        img_blocks = [np.round(b_img[j:j+8, i:i+8]-128)
                         for (j,i) in itertools.product(range(0,row,8), range(0,col,8))]
         dct_blocks = [np.round(cv2.dct(img_Block)) for img_Block in img_blocks]
         quantized_dct = [np.round(dct_Block/quant) for dct_Block in dct_blocks]
@@ -136,20 +138,15 @@ class DCT(Watermarking):
         self.num_bits = bin(len(bits))[2:].rjust(8,'0')
         return bits
 
-
-def add_padd(img):
-    """Adds padding to an image to make it divisible by 8."""
-    col = img.shape[1]
-    row = img.shape[0]
-    img = cv2.resize(img,(col+(8-col%8),row+(8-row%8)))    
-    return img
+    def add_padd(self, img):
+        """Adds padding to an image to make it divisible by 8."""
+        col = img.shape[1]
+        row = img.shape[0]
+        img = cv2.resize(img,(col+(8-col%8),row+(8-row%8)))
+        return img
 
 
 T = DCT()
-W = "1100"
-img = cv2.imread("../test_images/img_1.jpeg")
-img = add_padd(img)
-print(img.shape)
-_d = (T.enc(img,W,10))
-print(T.dec(_d, None, None))
-print(eval_metrics_cv(T, img, "110000"))
+print(eval_metrics(T, "test_images/building/000.jpg", "Hello World"))
+encrypt_img(T, "test_images/building/000.jpg", "Hello World")
+print(test_random(T))

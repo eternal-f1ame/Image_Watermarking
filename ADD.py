@@ -9,7 +9,7 @@ from util.test import eval_metrics
 class ADD(Watermarking):
     """Class for watermarking for ADD algorithm."""
     def __init__(self):
-        pass
+        self.type = "ADD"
 
     def enc(self, _i, _w, _k):
         """Encrypts an image _i with a watermark _w and a key _k."""
