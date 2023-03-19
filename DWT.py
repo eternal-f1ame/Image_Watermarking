@@ -43,8 +43,7 @@ class DWT(Watermarking):
                 if binary_watermark_index >= len(binary_watermark):
                     break
                 binary_pixel = np.binary_repr(_ll[i, j], width=8)
-                modified_pixel = int(
-                    binary_pixel[:-1] + binary_watermark[binary_watermark_index], 2)
+                modified_pixel = int(binary_pixel[:-1] + binary_watermark[binary_watermark_index], 2)
                 _ll[i, j] = modified_pixel
                 binary_watermark_index += 1
             if binary_watermark_index >= len(binary_watermark):
