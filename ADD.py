@@ -12,23 +12,24 @@ class ADD(Watermarking):
 
     def enc(self, _i, _w, _k):
         """Encrypts an image _i with a watermark _w and a key _k."""
-
+        _w = cv2.resize(_w, (_i.shape[1], _i.shape[0]))
         alpha = _k
-        i_res = _i + alpha*_w
-        i_res = np.clp(i_res,0,255)
+        i_res = _i*(1-alpha) + alpha*_w
+        i_res = np.clip(i_res,0,255)
         return i_res
 
     def dec(self, _d, _i, _k):
         """Decrypts a watermark from an image _i with a key _k."""
 
         alpha = _k
-        i_res = _i - _d*alpha
+        i_res = _i - _d*(1-alpha)
+        i_res = i_res/alpha
         i_res = np.clip(i_res, 0, 255)
         return i_res
 
 T = ADD()
-W = b"1100"
-_d = (T.enc(np.eye(10,10,3).astype(np.uint8),W,10))
-print(eval_metrics(T, "../test_images/img_1.jpeg", b"110000"))
-enc_im = encrypt_img(T, "../test_images/img_1.jpeg", b"1111101010010101010010101100100101000101010101001010")
-print(T.dec(enc_im, 0, 0))
+I = cv2.imread()
+W = cv2.imread()
+K = 0.05
+encrypted_image = T.enc(I, W, K)
+decrypted_image = T.dec(I, encrypted_image, K)
