@@ -16,7 +16,7 @@ def psnr(_d, _i):
     assert _d.shape == _i.shape, "Input images must have the same size"
     assert _d.ndim == _i.ndim, "Input images must have the same number of channels"
 
-    return 10 * np.log10(1 / mse(_d, _i))
+    return 10 * np.log10(255**2 / mse(_d, _i))
 
 
 def ssim_(_d, _i):
