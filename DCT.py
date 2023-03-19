@@ -3,12 +3,9 @@
 import itertools
 import numpy as np
 import cv2
-from PIL import Image
 from util.watermarking import Watermarking
-from util.test import test_random
 from util.test import encrypt_img
 from util.test import eval_metrics
-from util.test import eval_metrics_cv
 
 
 quant = np.array([[16,11,10,16,24,40,51,61],      
@@ -148,5 +145,5 @@ class DCT(Watermarking):
 
 T = DCT()
 print(eval_metrics(T, "test_images/building/000.jpg", "Hello World"))
-encrypt_img(T, "test_images/building/000.jpg", "Hello World")
-print(test_random(T))
+enc_im = encrypt_img(T, "test_images/building/000.jpg", "Hello World")
+print(T.dec(enc_im, 0, 0))

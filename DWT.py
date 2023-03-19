@@ -110,5 +110,5 @@ class DWT(Watermarking):
 
 T = DWT()
 print(eval_metrics(T, "test_images/building/000.jpg", "Hello World"))
-encrypt_img(T, "test_images/building/000.jpg", "Hello World")
-print(test_random(T))
+enc_im = encrypt_img(T, "test_images/building/000.jpg", "Hello World")
+print(T.dec(enc_im, 0, 0))

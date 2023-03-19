@@ -2,7 +2,6 @@
 
 import numpy as np
 from util.watermarking import Watermarking
-from util.test import test_random
 from util.test import encrypt_img
 from util.test import eval_metrics
 
@@ -31,5 +30,5 @@ T = ADD()
 W = b"1100"
 _d = (T.enc(np.eye(10,10,3).astype(np.uint8),W,10))
 print(eval_metrics(T, "../test_images/img_1.jpeg", b"110000"))
-encrypt_img(T, "../test_images/img_1.jpeg", b"1111101010010101010010101100100101000101010101001010")
-print(test_random(T))
+enc_im = encrypt_img(T, "../test_images/img_1.jpeg", b"1111101010010101010010101100100101000101010101001010")
+print(T.dec(enc_im, 0, 0))
