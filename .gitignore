@@ -1,2 +1,8 @@
 test_images/
 util/__pycache__
+visual/coco128
+visual/archive.zip
+visual/outputs
+visual/original
+visual/intermediate
+visual/removal_result
