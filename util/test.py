@@ -20,11 +20,10 @@ def test_random(_t, w_size=4):
         cover_image = _t.add_padd(cover_image)
     return np.array_equal(_w,_t.dec(encrypted, cover_image, _k))
 
-def encrypt_img(_t, img_path, _w, _k=10):
+def encrypt_img(_t, _i, _w, _k=10):
     """Encrypt an image and return the encrypted image"""
 
-    cover_image = cv2.imread(img_path)
-    cover_image = cover_image.astype(np.uint8)
+    cover_image = _i
     encrypted = _t.enc(cover_image, _w, _k)
     if _t.type in ['DCT', 'DWT']:
         cover_image = _t.add_padd(cover_image)
@@ -38,11 +37,10 @@ def encrypt_img(_t, img_path, _w, _k=10):
     plt.show()
     return _t.enc(cover_image, _w, _k)
 
-def eval_metrics(_t, img_path, _w, _k = 10):
+def eval_metrics(_t, _i, _w, _k = 10):
     """Evaluate the metrics of an image"""
 
-    cover_img = cv2.imread(img_path)
-    cover_img = cover_img.astype(np.uint8)
+    cover_img = _i
     _d = _t.enc(cover_img, _w, _k)
 
     if _t.type in ['DCT', 'DWT']:
