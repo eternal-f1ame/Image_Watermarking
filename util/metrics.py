@@ -18,12 +18,10 @@ def psnr(_d, _i):
 
     return 10 * np.log10(255**2 / mse(_d, _i))
 
-
 def ssim_(_d, _i):
     """Structural Similarity (SSIM) Index"""
     ssim_index =  ssim(_d, _i, channel_axis=2)
     return ssim_index
-
 
 def rgb2ycbcr(img):
     """
@@ -39,8 +37,7 @@ def rgb2ycbcr(img):
     return ycbcr.astype(np.uint8)
 
 def ber(_d, _i):
-    """
-    Bit Error Rate"""
+    """Bit Error Rate"""
 
     assert _d.shape == _i.shape, "Input images must have the same size"
     assert _d.ndim == _i.ndim, "Input images must have the same number of channels"
@@ -52,9 +49,26 @@ def ber(_d, _i):
     _d = _d.astype(np.uint8)
     _i = _i.astype(np.uint8)
 
-    ber_val = np.sum(np.abs(_d - _i)) / (_d.size * 8)
+    _d = _d.flatten()
+    _i = _i.flatten()
+
+    ber_val = np.sum([calculate_BER(d, i) for d, i in zip(_d, _i)]) / len(_d)*8
 
     return ber_val
+
+def calculate_BER(int1, int2):
+    """Helper function to calculate BER"""
+
+    bin1 = bin(int1)[2:]
+    bin2 = bin(int2)[2:]
+    bin1 = bin1.zfill(8)
+    bin2 = bin2.zfill(8)
+    diff_bits = sum([1 for b1, b2 in zip(bin1, bin2) if b1 != b2])
+    
+    BER = diff_bits
+    
+    return BER
+
 
 METRICS = {
     "MSE": mse,
