@@ -1,0 +1,9 @@
+numpy
+opencv-python
+matplotlib
+pywavelets
+scikit-image
+ipython
+ipykernel
+notebook
+jupyter

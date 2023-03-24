@@ -14,7 +14,7 @@ class ADD(Watermarking):
         """Encrypts an image _i with a watermark _w and a key _k."""
         _w = cv2.resize(_w, (_i.shape[1], _i.shape[0]))
         alpha = _k
-        i_res = _i*(1-alpha) + alpha*_w
+        i_res = _i + alpha*_w
         i_res = np.clip(i_res,0,255)
         return i_res
 
@@ -22,7 +22,7 @@ class ADD(Watermarking):
         """Decrypts a watermark from an image _i with a key _k."""
 
         alpha = _k
-        i_res = _i - _d*(1-alpha)
+        i_res = _i - _d
         i_res = i_res/alpha
         i_res = np.clip(i_res, 0, 255)
         return i_res
