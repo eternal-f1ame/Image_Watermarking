@@ -1,9 +1,9 @@
 """Additive algorithm for Watermarking"""
 
 import numpy as np
-from util.watermarking import Watermarking
-from util.test import encrypt_img
-from util.test import eval_metrics
+from ..util.watermarking import Watermarking
+from ..util.test import encrypt_img
+from ..util.test import eval_metrics
 
 class ADD(Watermarking):
     """Class for watermarking for ADD algorithm."""
