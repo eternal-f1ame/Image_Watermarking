@@ -49,5 +49,8 @@ ___
 ___
 
 ### Contributors
+
 > Aaditya Baranwal baranwal.1@iitj.ac.in ;  Github: [eternal-f1ame](https://github.com/aeternum)
+<br>
+
 > Ayush Anand anand.5@iitj.ac.in ; Github: [iamayushanand](https://github.com/iamayushanand)
