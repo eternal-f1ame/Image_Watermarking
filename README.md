@@ -50,7 +50,7 @@ ___
 
 * The folder "util" contains helper facilities to run the encryption algorithms on different inputs and check their output.
 * The file `metrics.py` consists of several metrics which we have implemented to evaluate the performance of the algorithms. To add another metric just create a function and add the mapping in the dictionary at the bottom of the file as has been illustrated.
-* For more comprehensive analysis and comparison, refer to [report](report.pdf).
+* For more comprehensive analysis and comparison, refer to [report](/document/report.pdf).
 
 ___
 
