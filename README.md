@@ -1,7 +1,7 @@
 # Computer Vision Course Project 1 (2023)
 
 ___
-[Report](B20CS082_B20EE001_Project_Report.pdf) -  [Demo-video](https://youtu.be/hbBockxgOn4) - [Presentation](Presentation\Presentation.pdf)
+[Report](B20CS082_B20EE001_Project_Report.pdf) -  [Demo-video](https://youtu.be/hbBockxgOn4) - [Presentation](/Presentation/Presentation.pdf)
 
 * This repository contains codes and demonstrations for the Computer Vision Course Project 1 on `Image Watermarking`.
 
