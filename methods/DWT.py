@@ -3,11 +3,11 @@
 import numpy as np
 import cv2
 import pywt
-from util.watermarking import Watermarking
-from util.test import test_random
-from util.test import encrypt_img
-from util.test import eval_metrics
-from util.test import eval_metrics_cv
+from ..util.watermarking import Watermarking
+from ..util.test import test_random
+from ..util.test import encrypt_img
+from ..util.test import eval_metrics
+from ..util.test import eval_metrics_cv
 
 class DWT(Watermarking):
     """Class for watermarking using DWT algorithm."""

@@ -3,9 +3,9 @@
 import itertools
 import numpy as np
 import cv2
-from util.watermarking import Watermarking
-from util.test import encrypt_img
-from util.test import eval_metrics
+from ..util.watermarking import Watermarking
+from ..util.test import encrypt_img
+from ..util.test import eval_metrics
 
 
 quant = np.array([[16,11,10,16,24,40,51,61],      
